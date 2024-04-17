@@ -58,6 +58,16 @@ func (bf *BloomFilter) Exist(bitmap, key []byte) bool {
 	return true
 }
 
+// Reset 重置过滤器
+func (bf *BloomFilter) Reset() {
+	bf.hashedKeys = bf.hashedKeys[:0]
+}
+
+// KeyLen 获取过滤器中存在的 key 个数
+func (bf *BloomFilter) KeyLen() int {
+	return len(bf.hashedKeys)
+}
+
 // Hash 生成过滤器对应的 bitmap. 最后一个 byte 标识 k 的数值
 func (bf *BloomFilter) Hash() []byte {
 	// k: 根据 m 和 n 推导出最佳 hash 函数个数
@@ -82,16 +92,6 @@ func (bf *BloomFilter) Hash() []byte {
 	}
 
 	return bitmap
-}
-
-// Reset 重置过滤器
-func (bf *BloomFilter) Reset() {
-	bf.hashedKeys = bf.hashedKeys[:0]
-}
-
-// KeyLen 获取过滤器中存在的 key 个数
-func (bf *BloomFilter) KeyLen() int {
-	return len(bf.hashedKeys)
 }
 
 // 生成一个空的 bitmap
